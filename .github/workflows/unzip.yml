@@ -3,7 +3,7 @@ name: Unzip file
 on:
   push:
     paths:
-      - '**/V55 Brawl.tip'  # Diese Regel löst den Workflow aus, wenn eine Datei namens V55 Brawl.tip hochgeladen wird.
+      - '**/V55 Brawl.tip'  # Dies löst den Workflow aus, wenn eine Datei namens V55 Brawl.tip hochgeladen wird.
 
 jobs:
   unzip:
@@ -11,12 +11,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # Checkt das Repository aus, damit der Code verfügbar ist.
-
-      - name: Install unzip
-        run: sudo apt-get install unzip  # Installiert das Unzip-Tool, falls erforderlich.
+        uses: actions/checkout@v2  # Checkt das Repository aus.
 
       - name: Rename and Unzip the file
         run: |
-          mv 'V55 Brawl.tip' 'V55_Brawl.zip'  # Rennt die Datei um, falls es eine ZIP-Datei ist.
-          unzip 'V55_Brawl.zip' -d unzipped/  # Entpackt die ZIP-Datei in den Zielordner 'unzipped'.
+          # Wenn es sich wirklich um eine ZIP-Datei handelt, aber die Endung falsch ist
+          mv 'V55 Brawl.tip' 'V55_Brawl.zip'  # Umbenennen der Datei in .zip
+          unzip 'V55_Brawl.zip' -d unzipped/  # Entpacken der ZIP-Datei in den Zielordner 'unzipped'.

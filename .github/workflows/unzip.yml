@@ -1,20 +1,16 @@
-name: Unzip file
+import zipfile
+import os
 
-on:
-  push:
-    paths:
-      - '**/V55 Brawl.tip'  # Dies löst den Workflow aus, wenn eine Datei namens V55 Brawl.tip hochgeladen wird.
+# Pfad zur ZIP-Datei und Zielordner
+zip_file_path = r'C:\Users\luklu\OneDrive\Dokumente\SSBSV55\V55 Brawl.zip'
+destination_folder = r'C:\Users\luklu\OneDrive\Dokumente\SSBSV55\V55_Brawl_Unpacked'
 
-jobs:
-  unzip:
-    runs-on: ubuntu-latest  # Der Job läuft auf einem Ubuntu-Linux-Server.
+# Sicherstellen, dass der Zielordner existiert
+if not os.path.exists(destination_folder):
+    os.makedirs(destination_folder)
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2  # Checkt das Repository aus.
+# Entpacken der ZIP-Datei
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(destination_folder)
 
-      - name: Rename and Unzip the file
-        run: |
-          # Wenn es sich wirklich um eine ZIP-Datei handelt, aber die Endung falsch ist
-          mv 'V55 Brawl.tip' 'V55_Brawl.zip'  # Umbenennen der Datei in .zip
-          unzip 'V55_Brawl.zip' -d unzipped/  # Entpacken der ZIP-Datei in den Zielordner 'unzipped'.
+print(f"ZIP-Datei erfolgreich entpackt in {destination_folder}")
